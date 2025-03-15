@@ -88,3 +88,58 @@ function displayMovements(acc) {
     })
 }
 
+
+function createUserName(accs) {
+    accs.forEach((acc) => {
+        acc.username = acc.owner
+            .toLowerCase()
+            .split(' ')
+            .map(name => name[0])
+            .join('');
+    })
+}
+
+createUserName(accounts);
+
+
+function calcDisplayBalance(acc) {
+    acc.balance = acc.movements.reduce((acc, cur) => acc + cur, 0);
+    labelBalance.textContent = `${acc.balance}€`;
+}
+
+
+function calcDisplaySummary(acc) {
+    const incomes = acc.movements
+        .filter(mov => mov > 0)
+        .reduce((acc, cur) => acc + cur, 0);
+
+    const out = acc.movements
+        .filter(mov => mov < 0)
+        .reduce((acc, cur) => acc + cur, 0);
+
+    const interest = acc.movements
+        .filter(mov => mov > 0)
+        .map(deposit => (deposit * acc.interestRate) / 100)
+        .filter((int) => int > 1)
+        .reduce((acc, cur) => acc + cur, 0);
+
+    labelSumInterest.textContent = `${interest}€`;
+    labelSumOut.textContent = `${Math.abs(out)}€`;
+    labelSumIn.textContent = `${incomes}€`;
+}
+
+
+function transferMoney(sender, receiver, money) {
+    sender.movements.push(-money)
+    receiver.movements.push(money)
+}
+
+
+function renderUI(acc) {
+    displayMovements(acc)
+    calcDisplayBalance(acc)
+    calcDisplaySummary(acc)
+}
+
+let currentAccount
+
