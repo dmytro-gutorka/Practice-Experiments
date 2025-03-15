@@ -143,3 +143,33 @@ function renderUI(acc) {
 
 let currentAccount
 
+
+btnLogin.addEventListener('click', (e) => {
+    e.preventDefault()
+    currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value)
+
+    if (currentAccount?.pin === +inputLoginPin.value) {
+        labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}!`;
+        containerApp.style.opacity = '1';
+
+        renderUI(currentAccount)
+        inputLoginUsername.value = inputLoginPin.value = ''
+    }
+})
+
+
+btnTransfer.addEventListener('click', (e) => {
+    e.preventDefault()
+    const amount = +inputTransferAmount.value
+    const receiverAccount = accounts.find(acc => acc.username === inputTransferTo.value)
+
+    if (amount > 0 && receiverAccount &&
+        currentAccount.balance >= amount &&
+        currentAccount?.username !== receiverAccount.username) {
+
+        transferMoney(currentAccount, receiverAccount, amount)
+        renderUI(currentAccount)
+        inputTransferAmount.value = inputTransferTo.value = ''
+    }
+})
+
