@@ -70,8 +70,6 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 
-
-
 function displayMovements(acc) {
     containerMovements.innerHTML = '';
     acc.movements.forEach((mov, i) => {
@@ -162,6 +160,7 @@ btnTransfer.addEventListener('click', (e) => {
     e.preventDefault()
     const amount = +inputTransferAmount.value
     const receiverAccount = accounts.find(acc => acc.username === inputTransferTo.value)
+    inputTransferAmount.value = inputTransferTo.value = ''
 
     if (amount > 0 && receiverAccount &&
         currentAccount.balance >= amount &&
@@ -169,7 +168,30 @@ btnTransfer.addEventListener('click', (e) => {
 
         transferMoney(currentAccount, receiverAccount, amount)
         renderUI(currentAccount)
-        inputTransferAmount.value = inputTransferTo.value = ''
     }
 })
+
+
+btnClose.addEventListener('click', (e) => {
+    e.preventDefault()
+    if (inputCloseUsername.value === currentAccount.username &&
+        +inputClosePin.value === currentAccount.pin) {
+        const index = accounts.findIndex((acc) => acc.username === currentAccount.username)
+        accounts.splice(index , 1)
+        containerApp.style.opacity = 0;
+    }
+})
+
+
+btnLoan.addEventListener('click', (e) => {
+    e.preventDefault()
+    const amount = +inputLoanAmount.value
+    if (amount > 0 && currentAccount.movements.some(mov => mov >= amount * 0.1)) {
+        currentAccount.movements.push(amount)
+        renderUI(currentAccount)
+        inputLoanAmount.value = ''
+
+    }
+})
+
 
