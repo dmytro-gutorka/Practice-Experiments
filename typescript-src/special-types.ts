@@ -1,5 +1,4 @@
 const inputEl = document.getElementById("input") as HTMLInputElement | null;
-console.log(inputEl.value)
 
 function process(val: unknown) {
     if (typeof val === 'object' && val && 'log' in val && typeof val.log === 'function') {
@@ -22,7 +21,7 @@ const user1: User = {
     age: 30,
 }
 
-const print1 = (msg?) => console.log(msg)
+const print1 = (msg?: any) => console.log(msg)
 print1()
 
 

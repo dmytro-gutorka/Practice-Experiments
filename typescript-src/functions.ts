@@ -1,7 +1,7 @@
-
 function access(a: number, b: number): number {
     return a + b
 }
+
 
 function log(message: string){
     console.log(message)
@@ -18,12 +18,13 @@ function printMessage(msg: string){
     console.log(msg)
 }
 
+
 function doSomething(cb: (msg: string) => void){
     cb('message')
 }
 
-doSomething(printMessage)
 
+doSomething(printMessage)
 
 
 type User1 = {
@@ -32,15 +33,18 @@ type User1 = {
     greet: () => string;
 }
 
+//
+// let user: User1 = {
+//     name: 'Dima',
+//     age: 10,
+//     greet(){
+//         console.log('Message')
+//         return this.name
+//     }
+// }
 
-let user: User1 = {
-    name: 'Dima',
-    age: 10,
-    greet(){
-        console.log('Message')
-        return this.name
-    }
-}
+
+let a;
 
 
-let a: null;
+

@@ -2,8 +2,6 @@ let hobbies = ['sports', 'cooking']
 
 let users: Array<string | number>;
 
-let user1: [string, number]
-user1 = ['fff', 11]
 
 
 let possibleResults: [number, string, any]; // Tuple - restricted length if an arr
