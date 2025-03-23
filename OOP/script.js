@@ -73,3 +73,26 @@ const account = {
 
 
 
+
+const PersonProto = {
+    init(name, birthYear) {
+        this.name = name;
+        this.birthYear = birthYear;
+    },
+
+    calcAge() {
+        console.log(2025 - this.birthYear);
+    },
+}
+
+const steven = Object.create(PersonProto);
+const sara = Object.create(PersonProto);
+
+console.log(steven.__proto__ === sara.__proto__);
+
+
+steven.init('Dima', 2000)
+console.log(steven)
+
+
+steven.calcAge();
