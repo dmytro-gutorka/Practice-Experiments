@@ -1,98 +1,183 @@
-'use strict';
+// 'use strict';
+//
+//
+// class Person {
+//     constructor(firstName, lastName, birthYear) {
+//         this.firstName = firstName;
+//         this.lastName = lastName;
+//         this.birthYear = birthYear;
+//     }
+//
+//     calcAge() {
+//         console.log(2025 - this.birthYear);
+//     }
+//
+//
+//     get age() {
+//         return 2025 - this.birthYear;
+//     }
 
 
-class Person {
-    constructor(firstName, lastName, fullName, birthYear) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.fullName = fullName
-        this.birthYear = birthYear;
-    }
-
-    calcAge() {
-        console.log(2025 - this.birthYear);
-    }
+    // set fullName(fullName) {
+    //     if (fullName.includes(' ')) this._fullName = fullName;
+    //     else alert(`Name ${fullName} is not valid`);
+    // }
+    //
+    // get fullName() {
+    //     return this._fullName;
+    // }
 
 
-    get age() {
-        return 2025 - this.birthYear;
-    }
+//     static hey1(){
+//         console.log('Hi!')
+//     }
+// }
+//
+//
+// class Student extends Person {
+//     constructor(firstName, lastName, birthYear, course) {
+//         super(firstName, lastName, birthYear)
+//         this.course = course
+//     }
+//
+//
+// }
+//
+// const martha = new Student('Martha', 'Jhonas', 2000, 'CS')
+// martha.calcAge()
+//
+// console.log(martha)
 
+//
+// const dimaGutorka = new Person('Dima', 'Gutorka', 'Dima Gutorka',  2000);
+// console.log(dimaGutorka)
+// console.log(Person)
+//
+//
+// Person.hey =  function() {
+//     console.log('Hi there !!!')
+// }
+//
+// Person.hey()
+// Person.hey1()
+//
+//
+//
+// Person.prototype.greet = function() {
+//     console.log(`Hello, ${this.firstName}!`);
+// }
+//
+// dimaGutorka.greet()
+// dimaGutorka.calcAge();
+//
+//
+// const account = {
+//     owner: 'dima',
+//     movements: [100, 2000, 300],
+//
+//     get latest() {
+//         return this.movements.slice(-1).pop()
+//     },
+//
+//     set latest(mov) {
+//         this.movements.push(mov)
+//     }
+// }
+//
+//
+// const PersonProto = {
+//     init(name, birthYear) {
+//         this.name = name;
+//         this.birthYear = birthYear;
+//     },
+//
+//     calcAge() {
+//         console.log(2025 - this.birthYear);
+//     },
+// }
+//
+// const steven = Object.create(PersonProto);
+// const sara = Object.create(PersonProto);
+//
+// console.log(steven.__proto__ === sara.__proto__);
+//
+//
+// steven.init('Dima', 2000)
+// console.log(steven)
+//
+//
+// steven.calcAge();
 
-    set fullName(fullName) {
-        if (fullName.includes(' ')) this._fullName = fullName;
-        else alert(`Name ${fullName} is not valid`);
-    }
-
-    get fullName() {
-        return this._fullName;
-    }
-
-
-    static hey1(){
-        console.log('Hi!')
-    }
-}
-
-
-const dimaGutorka = new Person('Dima', 'Gutorka', 'Dima Gutorka',  2000);
-console.log(dimaGutorka)
-console.log(Person)
-
-
-Person.hey =  function() {
-    console.log('Hi there !!!')
-}
-
-Person.hey()
-Person.hey1()
-
-
-
-Person.prototype.greet = function() {
-    console.log(`Hello, ${this.firstName}!`);
-}
-
-dimaGutorka.greet()
-dimaGutorka.calcAge();
-
-
-const account = {
-    owner: 'dima',
-    movements: [100, 2000, 300],
-
-    get latest() {
-        return this.movements.slice(-1).pop()
-    },
-
-    set latest(mov) {
-        this.movements.push(mov)
-    }
-}
-
-
+//
+//
+// const Person = function(firstName, birthYear) {
+//     this.firstName = firstName;
+//     this.birthYear = birthYear;
+// }
+//
+//
+// Person.prototype.calcAge = function() {
+//     console.log(2025 - this.birthYear);
+// }
+//
+//
+//
+// const Student = function(firstName, birthYear, course) {
+//     Person.call(this, firstName, birthYear);
+//     this.course = course;
+// }
+//
+//
+// Student.prototype = Object.create(Person.prototype)
+// Student.prototype.constructor = Student
+//
+// Student.prototype.introduce = function() {
+//     console.log(`My name is ${this.firstName} and I study ${this.course}!`);
+// }
+//
+//
+// const mike = new Student('Mike', 2020, 'Computer Science')
+// const dima = new Student('dima', 2000, 'Frontend Development')
+//
+//
+// const testFunc = function (a,b) {
+//     return a + b
+// }
+//
+// console.log(testFunc.prototype)
+//
+// const testClass = class Person {
+//     constructor(c, d) {
+//         this.c = c;
+//         this.d = d;
+//     }
+//
+//     greeting() {
+//         console.log('Hii')
+//     }
+// }
+//
+// console.log(testClass.prototype)
+//
+//
+// const testObj = {
+//     a: 1,
+//     b: 2,
+//     c: 3
+// }
 
 
 
 const PersonProto = {
-    init(name, birthYear) {
-        this.name = name;
-        this.birthYear = birthYear;
-    },
-
     calcAge() {
         console.log(2025 - this.birthYear);
     },
+
+
 }
 
-const steven = Object.create(PersonProto);
-const sara = Object.create(PersonProto);
 
-console.log(steven.__proto__ === sara.__proto__);
-
-
-steven.init('Dima', 2000)
-console.log(steven)
+const StudentProto = Object.create(PersonProto);
+const jay = Object.create(StudentProto);
 
 
-steven.calcAge();
