@@ -27,13 +27,25 @@ class Person {
     get fullName() {
         return this._fullName;
     }
+
+
+    static hey1(){
+        console.log('Hi!')
+    }
 }
 
 
 const dimaGutorka = new Person('Dima', 'Gutorka', 'Dima Gutorka',  2000);
 console.log(dimaGutorka)
+console.log(Person)
 
 
+Person.hey =  function() {
+    console.log('Hi there !!!')
+}
+
+Person.hey()
+Person.hey1()
 
 
 
@@ -57,6 +69,7 @@ const account = {
         this.movements.push(mov)
     }
 }
+
 
 
 
