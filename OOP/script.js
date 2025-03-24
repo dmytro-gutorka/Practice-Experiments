@@ -193,3 +193,48 @@
 // jay.init('Dima', 2000, 'CS')
 
 
+
+
+class Account {
+    locale = navigator.language;
+    bank = 'Bankist';
+    #movements = [];
+    #pin;
+
+    constructor(owner, currency, pin, movements) {
+        this.owner = owner;
+        this.currency = currency;
+        this.#pin = pin;
+    }
+
+    getMovements() {
+        console.log(this.#movements)
+        return this.#movements;
+    }
+
+    deposit(val) {
+        this.#movements.push(val);
+        return this
+    }
+
+    withdraw(val) {
+        this.deposit(-val);
+        return this
+    }
+
+    #approveLoan() {
+        return true
+    }
+
+    requestLoan(val) {
+        if (this.#approveLoan(val)){
+            this.deposit(val)
+            console.log('Loan approved')
+        }
+        return this
+    }
+
+}
+
+const acc1 = new Account('Dima', 'EUR', 1111, [1,2,3]);
+acc1.deposit(1).withdraw(20).requestLoan(300).deposit(2000).getMovements();
