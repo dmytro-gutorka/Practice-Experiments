@@ -1,4 +1,4 @@
-// 'use strict';
+'use strict';
 //
 //
 // class Person {
@@ -168,16 +168,28 @@
 
 
 
-const PersonProto = {
-    calcAge() {
-        console.log(2025 - this.birthYear);
-    },
-
-
-}
-
-
-const StudentProto = Object.create(PersonProto);
-const jay = Object.create(StudentProto);
+// const PersonProto = {
+//     calcAge() {
+//         console.log(2025 - this.birthYear);
+//     },
+//
+//     init(firstName, birthYear) {
+//         this.firstName = firstName;
+//         this.birthYear = birthYear;
+//     }
+// }
+//
+//
+// const StudentProto = Object.create(PersonProto)
+//
+// StudentProto.init = function(firstName, birthYear, course) {
+//     PersonProto.init.call(this, firstName, birthYear)
+//     this.course = course;
+// }
+//
+// const jay = Object.create(StudentProto)
+//
+//
+// jay.init('Dima', 2000, 'CS')
 
 
