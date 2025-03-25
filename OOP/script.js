@@ -108,7 +108,7 @@
 //
 // steven.calcAge();
 
-//
+
 //
 // const Person = function(firstName, birthYear) {
 //     this.firstName = firstName;
@@ -191,50 +191,102 @@
 //
 //
 // jay.init('Dima', 2000, 'CS')
+//
+//
+//
+// class Account {
+//     locale = navigator.language;
+//     bank = 'Bankist';
+//     #movements = [];
+//     #pin;
+//
+//     constructor(owner, currency, pin, movements) {
+//         this.owner = owner;
+//         this.currency = currency;
+//         this.#pin = pin;
+//     }
+//
+//     getMovements() {
+//         console.log(this.#movements)
+//         return this.#movements;
+//     }
+//
+//     deposit(val) {
+//         this.#movements.push(val);
+//         return this
+//     }
+//
+//     withdraw(val) {
+//         this.deposit(-val);
+//         return this
+//     }
+//
+//     #approveLoan() {
+//         return true
+//     }
+//
+//     requestLoan(val) {
+//         if (this.#approveLoan(val)){
+//             this.deposit(val)
+//             console.log('Loan approved')
+//         }
+//         return this
+//     }
+// }
+//
+// const acc1 = new Account('Dima', 'EUR', 1111, [1,2,3]);
+// acc1.deposit(1).withdraw(20).requestLoan(300).deposit(2000).getMovements();
 
 
 
-
-class Account {
-    locale = navigator.language;
-    bank = 'Bankist';
-    #movements = [];
-    #pin;
-
-    constructor(owner, currency, pin, movements) {
-        this.owner = owner;
-        this.currency = currency;
-        this.#pin = pin;
-    }
-
-    getMovements() {
-        console.log(this.#movements)
-        return this.#movements;
-    }
-
-    deposit(val) {
-        this.#movements.push(val);
-        return this
-    }
-
-    withdraw(val) {
-        this.deposit(-val);
-        return this
-    }
-
-    #approveLoan() {
-        return true
-    }
-
-    requestLoan(val) {
-        if (this.#approveLoan(val)){
-            this.deposit(val)
-            console.log('Loan approved')
-        }
-        return this
-    }
-
-}
-
-const acc1 = new Account('Dima', 'EUR', 1111, [1,2,3]);
-acc1.deposit(1).withdraw(20).requestLoan(300).deposit(2000).getMovements();
+//
+// class CarCl {
+//     constructor(make, speed) {
+//         this.make = make;
+//         this.speed = speed;
+//     }
+//
+//     accelerate() {
+//         this.speed += 10;
+//         console.log(`${this.make} is going at ${this.speed} km/h`);
+//     }
+//
+//     brake() {
+//         this.speed -= 5;
+//         console.log(`${this.make} is going at ${this.speed} km/h`);
+//         return this;
+//     }
+//
+//     get speedUS() {
+//         return this.speed / 1.6;
+//     }
+//
+//     set speedUS(speed) {
+//         this.speed = speed * 1.6;
+//     }
+// }
+//
+// class EVCl extends CarCl {
+//     #charge;
+//
+//     constructor(make, speed, charge) {
+//         super(make, speed);
+//         this.#charge = charge;
+//     }
+//
+//     chargeBattery(chargeTo) {
+//         this.#charge = chargeTo;
+//         return this;
+//     }
+//
+//     accelerate() {
+//         this.speed += 20;
+//         this.#charge--;
+//         console.log(
+//             `${this.make} is going at ${this.speed} km/h, with a charge of ${this.#charge}`
+//         );
+//
+//         return this;
+//     }
+// }
+//
