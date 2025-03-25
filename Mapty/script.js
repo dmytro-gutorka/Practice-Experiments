@@ -44,3 +44,23 @@ if (navigator.geolocation) {
         })
 }
 
+
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value = ''
+    const {lat, lng} = mapEvent.latlng;
+
+    L.marker([lat, lng])
+        .addTo(map)
+        .bindPopup(
+            L.popup({maxWidth: 250,  minWidth: 100, autoClose: false, closeOnClick: false, className: 'running-popup',}))
+        .setPopupContent('Label').openPopup();
+})
+
+
+inputType.addEventListener('change', function(e) {
+    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+
+})
