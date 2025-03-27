@@ -55,18 +55,29 @@ function renderCountry(data, className = '') {
 // const request = fetch('https://restcountries.com/v2/name/usa')
 // console.log(request)
 
-
 function getCountryData(country) {
-
-    fetch(`https://restcountries.com/v2/name/${country}`)
-        .then(resp => resp.json())
+    getJSON(`https://restcountries.com/v2/name/${country}`, 'Country not found')
         .then(data => {
             renderCountry(data[0])
-            if (data[0].borders?.[0]) return fetch(`https://restcountries.com/v2/alpha/${data[0].borders?.[0]}`)
+            if (!data[0].borders?.[0]) throw new Error ('No neighbour')
+            return getJSON(
+                `https://restcountries.com/v2/alpha/${data[0].borders?.[0]}`,
+                'Country not found')
         })
-        .then(resp => resp.json())
         .then(data => renderCountry(data, 'neighbour'))
+        .catch(err => console.error(err.message))
+        .finally(() => console.log('Always runs'))
 }
 
 
-getCountryData('usa')
+btn.addEventListener('click', () => {
+    getCountryData('australia')
+});
+
+
+function getJSON(url, errMessage = 'Something went wrong') {
+    return fetch(url).then(resp => {
+        if (!resp.ok) throw new Error(`${errMessage} ${resp.status}` )
+        return resp.json()
+    })
+}
