@@ -142,3 +142,8 @@
 // regular(); // ❌ undefined (в strict mode)
 // arrow();   // ✅ 'realObj'
 
+
+// https://countries-api-836d.onrender.com/countries/
+
+
+
