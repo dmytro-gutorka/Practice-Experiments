@@ -25,29 +25,48 @@ function renderCountry(data, className = '') {
     countriesContainer.style.opacity = 1;
 }
 
-function getCountryAndNeighbour(country) {
-    const request = new XMLHttpRequest();
-    request.open('GET', `https://restcountries.com/v2/name/${country}`);
-    request.send();
+// function getCountryAndNeighbour(country) {
+//     const request = new XMLHttpRequest();
+//     request.open('GET', `https://restcountries.com/v2/name/${country}`);
+//     request.send();
+//
+//     request.addEventListener('load', function () {
+//         const [data] = JSON.parse(this.responseText)
+//         renderCountry(data)
+//
+//         const neighbour = data.borders?.[0]
+//         if (!neighbour) return;
+//
+//         const request2 = new XMLHttpRequest();
+//         request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`);
+//         request2.send();
+//
+//         request2.addEventListener('load', function() {
+//             const data2 = JSON.parse(this.responseText)
+//             renderCountry(data2, 'neighbour')
+//         })
+//     })
+// }
+//
+// getCountryAndNeighbour("usa")
 
-    request.addEventListener('load', function () {
-        const [data] = JSON.parse(this.responseText)
-        renderCountry(data)
 
-        const neighbour = data.borders?.[0]
-        if (!neighbour) return;
+//
+// const request = fetch('https://restcountries.com/v2/name/usa')
+// console.log(request)
 
-        const request2 = new XMLHttpRequest();
-        request2.open('GET', `https://restcountries.com/v2/alpha/${neighbour}`);
-        request2.send();
 
-        request2.addEventListener('load', function() {
-            const data2 = JSON.parse(this.responseText)
-            renderCountry(data2, 'neighbour')
+function getCountryData(country) {
+
+    fetch(`https://restcountries.com/v2/name/${country}`)
+        .then(resp => resp.json())
+        .then(data => {
+            renderCountry(data[0])
+            if (data[0].borders?.[0]) return fetch(`https://restcountries.com/v2/alpha/${data[0].borders?.[0]}`)
         })
-    })
+        .then(resp => resp.json())
+        .then(data => renderCountry(data, 'neighbour'))
 }
 
-getCountryAndNeighbour("usa")
 
-
+getCountryData('usa')
