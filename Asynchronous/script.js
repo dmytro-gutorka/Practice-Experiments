@@ -212,22 +212,88 @@ function getPosition() {
     })
 }
 
-async function whereAmI(country) {
-    const pos = await getPosition();
-    console.log(1)
-    const {latitude: lat, longitude: lng} = pos.coords;
-    const locationResp = await
-        fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
-    console.log(2)
-    const locationBody = await locationResp.json()
-    console.log(3)
 
-    const countryResp = await fetch(`https://restcountries.com/v2/name/${locationBody.countryName}`);
-    console.log(4)
-    const countryBody = await countryResp.json();
-    console.log(5)
-    renderCountry(countryBody[0])
+// const locationResp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
+
+// const countryResp = await fetch(`https://restcountries.com/v2/name/${locationBody.countryName}`);
+
+
+// async function whereAmI() {
+//
+//     try {
+//
+//         const pos = await getPosition();
+//         const {latitude: lat, longitude: lng} = pos.coords;
+//
+//         const locationResp = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
+//         if (!locationResp.ok) throw new Error('Data fetch failed');
+//         const locationBody = await locationResp.json()
+//
+//         const countryResp = await fetch(`https://restcountries.com/v2/name/non_existed_country`);
+//         if (!countryResp.ok) throw new Error('Country not found');
+//         const countryBody = await countryResp.json();
+//
+//         renderCountry(countryBody[0])
+//         return `You re in ${locationBody.principalSubdivision}`
+//
+//     } catch(err) {
+//         console.log(err.message)
+//     }
+// }
+//
+// console.log(whereAmI())
+
+
+function getJSON(url, errMessage = 'Something went wrong') {
+    return fetch(url).then(resp => {
+        if (!resp.ok) throw new Error(`${errMessage} ${resp.status}` )
+        return resp.json()
+    })
+}
+//
+//
+// async function get3Countries(c1, c2, c3) {
+//
+//     try {
+//         // const data1 = await getJSON(`https://restcountries.com/v2/name/${c1}`)
+//         // const data2 = await getJSON(`https://restcountries.com/v2/name/${c2}`)
+//         // const data3 = await getJSON(`https://restcountries.com/v2/name/${c3}`)
+//
+//         const data = await Promise.all([
+//             getJSON(`https://restcountries.com/v2/name/${c1}`),
+//             getJSON(`https://restcountries.com/v2/name/${c2}`),
+//             getJSON(`https://restcountries.com/v2/name/${c3}`)
+//             ])
+//     }
+//     catch(err) {
+//         console.log(err)
+//     }
+// }
+//
+//
+// get3Countries('canada', 'ukraine', 'usa')
+
+//
+// (async function() {
+//     const res = await Promise.race([
+//         getJSON(`https://restcountries.com/v2/name/usa`),
+//         getJSON(`https://restcountries.com/v2/name/ukraine`),
+//         getJSON(`https://restcountries.com/v2/name/mexico`)
+//     ]);
+//     console.log(res[0])
+// })()
+
+
+function timeout(sec) {
+    return new Promise((_, reject) =>
+        setTimeout(() =>
+            reject(new Error('request took too long')), sec * 1000))
 }
 
-whereAmI('usa');
+Promise.race([
+    getJSON(`https://restcountries.com/v2/name/usa`),
+    timeout(0.1)
+])
+    .then(res => console.log(res[0]))
+    .catch(err => console.error(err))
 
