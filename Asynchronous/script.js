@@ -1,25 +1,25 @@
 'use strict';
 //
-// const btn = document.querySelector('.btn-country');
-// const countriesContainer = document.querySelector('.countries');
-//
-//
-// function renderCountry(data, className = '') {
-//     const html = `
-//       <article class="country ${className}">
-//           <img class="country__img" src="${data.flag}" />
-//           <div class="country__data">
-//             <h3 class="country__name">${data.name}</h3>
-//             <h4 class="country__region">${data.region}</h4>
-//             <p class="country__row"><span>👫</span>${+(data.population / 1000000).toFixed(2)} million people</p>
-//             <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
-//             <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
-//           </div>
-//         </article>`
-//
-//     countriesContainer.insertAdjacentHTML('beforeend', html);
-//     countriesContainer.style.opacity = 1;
-// }
+const btn = document.querySelector('.btn-country');
+const countriesContainer = document.querySelector('.countries');
+
+
+function renderCountry(data, className = '') {
+    const html = `
+      <article class="country ${className}">
+          <img class="country__img" src="${data.flag}" />
+          <div class="country__data">
+            <h3 class="country__name">${data.name}</h3>
+            <h4 class="country__region">${data.region}</h4>
+            <p class="country__row"><span>👫</span>${+(data.population / 1000000).toFixed(2)} million people</p>
+            <p class="country__row"><span>🗣️</span>${data.languages[0].name}</p>
+            <p class="country__row"><span>💰</span>${data.currencies[0].name}</p>
+          </div>
+        </article>`
+
+    countriesContainer.insertAdjacentHTML('beforeend', html);
+    countriesContainer.style.opacity = 1;
+}
 
 
 // function getCountryAndNeighbour(country) {
@@ -165,44 +165,69 @@
 //     TEST DATA: Images in the img folder. Test the error handler by passing a wrong image path. Set the network speed to 'Fast 3G' in the dev tools Network tab, otherwise images load too fast.
 //
 
-const imgContainer = document.querySelector('.images')
-let image
+// const imgContainer = document.querySelector('.images')
+// let image
+//
+//
+// function createImage(imgPath) {
+//     return new Promise((resolve, reject) => {
+//         const img = document.createElement('img');
+//         img.src = imgPath;
+//
+//         img.addEventListener('error', (event) => {
+//             reject(new Error('Image not found'))
+//         })
+//
+//         img.addEventListener('load', (event) => {
+//             imgContainer.append(img)
+//             resolve(img)
+//         })
+//     })
+// }
+//
+//
+// function wait(seconds){
+//     return new Promise(resolve => setTimeout(resolve, 1000 * seconds))
+// }
+//
+// createImage('./img/img-1.jpg')
+//     .then(img => {
+//         image = img
+//         return wait(2)
+//     })
+//     .then(() => {
+//         image.style.display = 'none'
+//         return createImage('./img/img-2.jpg')
+//     }).then(img => {
+//         image = img
+//         return wait(2)
+//     })
+//     .then(() => image.style.display = 'none')
+//     .catch(err => console.log(err))
 
 
-function createImage(imgPath) {
+function getPosition() {
     return new Promise((resolve, reject) => {
-        const img = document.createElement('img');
-        img.src = imgPath;
-
-        img.addEventListener('error', (event) => {
-            reject(new Error('Image not found'))
-        })
-
-        img.addEventListener('load', (event) => {
-            img.classList.add('images')
-            imgContainer.append(img)
-            resolve(img)
-        })
-
+        navigator.geolocation.getCurrentPosition(resolve, reject)
     })
 }
 
+async function whereAmI(country) {
+    const pos = await getPosition();
+    console.log(1)
+    const {latitude: lat, longitude: lng} = pos.coords;
+    const locationResp = await
+        fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}`)
+    console.log(2)
+    const locationBody = await locationResp.json()
+    console.log(3)
 
-function wait(seconds){
-    return new Promise(resolve => setTimeout(resolve, 1000 * seconds))
+    const countryResp = await fetch(`https://restcountries.com/v2/name/${locationBody.countryName}`);
+    console.log(4)
+    const countryBody = await countryResp.json();
+    console.log(5)
+    renderCountry(countryBody[0])
 }
 
-createImage('./img/img-1.jpg')
-    .then(img => {
-        image = img
-        return wait(2)
-    })
-    .then(() => {
-        image.style.display = 'none'
-        return createImage('./img/img-2.jpg')
-    }).then(img => {
-        image = img
-        return wait(2)
-    })
-    .then(res => image.style.display = 'none')
-    .catch(err => console.log(err))
+whereAmI('usa');
+
