@@ -14,3 +14,5 @@ const user: User = new UserAccount();
 
 
 
+let message: string = 'Hello, World!';
+console.log(message);

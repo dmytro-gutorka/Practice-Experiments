@@ -139,11 +139,17 @@
 // console.log(regular, arrow)
 //
 //
-// regular(); // ❌ undefined (в strict mode)
-// arrow();   // ✅ 'realObj'
+// regular();
+// arrow();
 
 
-// https://countries-api-836d.onrender.com/countries/
 
 
+function wave(str){
+    return Array(str.length).fill()
+        .map((_, map_i) => str.split('')
+            .reduce((a, b, red_i) => map_i === red_i ? a + b.toUpperCase() : a + b, ''));
+}
+
+console.log(wave('two words'))
 
