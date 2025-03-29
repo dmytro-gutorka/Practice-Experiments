@@ -14,7 +14,6 @@ const nav = document.querySelector('.nav');
 const featuresImages = document.querySelectorAll('img[data-src]');
 
 
-
 const openModal = function (e) {
   e.preventDefault()
   modal.classList.remove('hidden');
@@ -139,7 +138,6 @@ const loadImg = function(entries, observer) {
 
 const imgObserver = new IntersectionObserver(loadImg, {root: null, threshold: 0, rootMargin: '200px'})
 featuresImages.forEach(featureImg => imgObserver.observe(featureImg))
-
 
 
 const dotContainer = document.querySelector('.dots');
