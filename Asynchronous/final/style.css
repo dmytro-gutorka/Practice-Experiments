@@ -121,6 +121,6 @@ body {
 .images img.parallel {
   width: 40rem;
   margin: 2rem;
-  border: 3rem solid white;
+  border: 3rem solid red;
   box-shadow: 0 2rem 5rem 1rem rgba(0, 0, 0, 0.1);
 }

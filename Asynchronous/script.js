@@ -290,10 +290,96 @@ function timeout(sec) {
             reject(new Error('request took too long')), sec * 1000))
 }
 
-Promise.race([
-    getJSON(`https://restcountries.com/v2/name/usa`),
-    timeout(0.1)
-])
-    .then(res => console.log(res[0]))
-    .catch(err => console.error(err))
+// Promise.race([
+//     getJSON(`https://restcountries.com/v2/name/usa`),
+//     timeout(0.6)
+// ])
+//     .then(res => console.log(res[0]))
+//     .catch(err => console.error(err))
 
+
+// Promise.allSettled([
+//     timeout(0.1),
+//     getJSON(`https://restcountries.com/v2/name/usa`),
+//     getJSON(`https://restcountries.com/v2/name/ukraine`),
+//     getJSON(`https://restcountries.com/v2/name/usa`),
+//     timeout(0.1)
+// ])
+//     .then(res => console.log(res[0]))
+//     .catch(err => console.error(err))
+//
+
+
+// Promise.allSettled([
+//     Promise.reject('Error 1'),
+//     Promise.resolve('Success 1'),
+//     Promise.reject('Error 2'),
+//     Promise.resolve('Success 2'),
+// ]).then(res => console.log(res))
+
+
+
+const imgContainer = document.querySelector('.images')
+let image
+
+
+function createImage(imgPath) {
+    return new Promise((resolve, reject) => {
+        const img = document.createElement('img');
+        img.src = imgPath;
+
+        img.addEventListener('error', (event) => {
+            reject(new Error('Image not found'))
+        })
+
+        img.addEventListener('load', (event) => {
+            imgContainer.append(img)
+            resolve(img)
+        })
+    })
+}
+
+
+function wait(seconds){
+    return new Promise(resolve => setTimeout(resolve, 1000 * seconds))
+}
+
+
+async function loadImageWithDelay(imgPath) {
+    const loadedImage = await createImage(imgPath)
+    await wait(2)
+    loadedImage.style.display = 'none'
+}
+
+
+async function loadNPause() {
+
+    try {
+        await loadImageWithDelay('./img/img-1.jpg')
+        await loadImageWithDelay('./img/img-2.jpg')
+    }
+
+    catch(err) {
+        console.log(err)
+    }
+}
+
+loadNPause()
+
+
+async function loadAll(imgArr) {
+
+    try {
+        const images = imgArr.map(async img => await createImage(img))
+        const imagesElements = await Promise.all(images)
+        imagesElements.forEach(imageElement => imageElement.classList.add('parallel'))
+    }
+
+    catch(err) {
+        console.log(err)
+    }
+
+}
+
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg'])
