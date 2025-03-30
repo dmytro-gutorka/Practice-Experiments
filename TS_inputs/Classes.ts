@@ -53,7 +53,6 @@ class SideDrawerElement extends UIElement {
 
 
 
-
 export abstract class BankAccount {
     private static _totalAccounts: number = 0;
     private readonly _ownerName: string;
@@ -123,5 +122,50 @@ export class CheckingAccount extends BankAccount {
     public calculateInterest(): number {
         return 0
     }
+}
+
+
+interface Authentication {
+    email: string;
+    password: string;
+
+    login(): void;
+    logout(): void;
+}
+
+
+// interface Authentication{
+//     role: string;
+// }
+
+interface AuthenticationExtra extends Authentication {
+    role: 'Admin' | 'Guest'
+}
+
+
+let user: Authentication = {
+    email: 'test@example.com',
+    password: 'qwerty123',
+
+    login() {
+        console.log('Logged in')
+     },
+
+    logout() {
+        console.log('Logged out')
+    }
+}
+
+
+class AuthenticationExtra implements AuthenticationExtra{
+    constructor(
+        public email: string,
+        public password: string,
+        public role: 'Admin' | 'Guest',
+        public anyExtraProperty: string,
+    ) {}
+
+    public login() {}
+    public logout() {}
 
 }
