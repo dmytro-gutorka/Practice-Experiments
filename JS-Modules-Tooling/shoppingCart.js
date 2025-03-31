@@ -1,24 +1,8 @@
 // Exporting module
 console.log('Exporting module')
 
-const shippingCost = 10;
-const cart = [];
 
+const a = 1
+const b = 2
 
-export const addToCart = function(product, quantity) {
-    cart.push({cart, quantity});
-    console.log(`${quantity} ${product} added to cart`);
-}
-
-const totalPrice = 200;
-const totalQuantity = 15;
-
-export {totalPrice, totalQuantity as tq};
-
-
-
-
-export default function(product, quantity) {
-    cart.push({cart, quantity});
-    console.log(`${quantity} ${product} added to cart`);
-}
+export {a, b}

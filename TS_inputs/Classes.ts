@@ -20,6 +20,7 @@ class User{
     }
 }
 
+
 const dima = new User();
 dima._lastName = 'aa'
 
@@ -43,6 +44,7 @@ abstract class UIElement {
     }
 }
 
+
 class SideDrawerElement extends UIElement {
     constructor(
         public identifier: string,
@@ -50,7 +52,6 @@ class SideDrawerElement extends UIElement {
         super(identifier);
     }
 }
-
 
 
 export abstract class BankAccount {
@@ -134,10 +135,6 @@ interface Authentication {
 }
 
 
-// interface Authentication{
-//     role: string;
-// }
-
 interface AuthenticationExtra extends Authentication {
     role: 'Admin' | 'Guest'
 }
@@ -169,3 +166,4 @@ class AuthenticationExtra implements AuthenticationExtra{
     public logout() {}
 
 }
+
