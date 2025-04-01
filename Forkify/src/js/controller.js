@@ -32,7 +32,7 @@ async function controlSearchResults() {
     if (!query) return;
 
     await model.loadSearchResults(query)
-    resultsView.render(model.state.search.result)
+    resultsView.render(model.getSearchResultsPage())
 
   } catch(err) {
 
