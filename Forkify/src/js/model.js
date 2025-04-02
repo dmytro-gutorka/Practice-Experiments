@@ -64,3 +64,11 @@ export function getSearchResultsPage(page = state.search.page) {
 function pageResetAfterSearch() {
   state.search.page = 1
 }
+
+
+export function updateServings(newServings) {
+  state.recipe.ingredients.forEach(ing =>
+      ing.quantity = (ing.quantity * newServings) / state.recipe.servings)
+
+  state.recipe.servings = newServings
+}
