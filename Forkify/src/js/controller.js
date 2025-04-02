@@ -2,9 +2,11 @@ import * as model from './model.js'
 import recipeView from './views/recipeView.js'
 import searchView from './views/searchView.js'
 import resultsView from './views/resultsView.js'
+import paginationView from './views/paginationView.js'
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import PaginationView from './views/paginationView';
 
 
 async function controlRecipes() {
@@ -34,15 +36,28 @@ async function controlSearchResults() {
     await model.loadSearchResults(query)
     resultsView.render(model.getSearchResultsPage())
 
-  } catch(err) {
+    paginationView.render(model.state.search)
 
+
+  } catch(err) {
+    console.log(err)
   }
+}
+
+
+function controlPagination(goToPage) {
+  paginationView.renderSpinner()
+
+  resultsView.render(model.getSearchResultsPage(goToPage))
+  paginationView.render(model.state.search)
+
 }
 
 
 function init() {
   recipeView.addHandlerRender(controlRecipes)
   searchView.addHandlerRender(controlSearchResults)
+  paginationView.addHandlerClick(controlPagination)
 }
 
 
