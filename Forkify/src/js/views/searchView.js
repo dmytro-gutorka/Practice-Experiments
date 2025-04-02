@@ -12,7 +12,6 @@ class SearchView {
       return this._parentEl.querySelector('.search__field').value = '';
     }
 
-
     addHandlerRender(handler) {
       this._parentEl.addEventListener('submit', (e) => {
         e.preventDefault()

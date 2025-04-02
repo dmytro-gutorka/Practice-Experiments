@@ -44,7 +44,10 @@ export async function loadSearchResults(query) {
       image: recipe.image_url
     }
 
+
   })
+
+  pageResetAfterSearch()
 }
 
 
@@ -55,4 +58,9 @@ export function getSearchResultsPage(page = state.search.page) {
   const end = page * state.search.resultsPerPage
 
   return state.search.result.slice(start, end)
+}
+
+
+function pageResetAfterSearch() {
+  state.search.page = 1
 }

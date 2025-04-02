@@ -2627,12 +2627,16 @@ async function loadSearchResults(query) {
             image: recipe.image_url
         };
     });
+    pageResetAfterSearch();
 }
 function getSearchResultsPage(page = state.search.page) {
     state.search.page = page;
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * state.search.resultsPerPage;
     return state.search.result.slice(start, end);
+}
+function pageResetAfterSearch() {
+    state.search.page = 1;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./config.js":"2hPh4","./helpers.js":"7nL9P"}],"2hPh4":[function(require,module,exports,__globalThis) {
@@ -2869,6 +2873,9 @@ class resultsView extends (0, _viewJsDefault.default) {
     _parentElement = document.querySelector('.results');
     _successfulMessage = '';
     _errorMessage = 'No recipes found for your query! Please try again';
+    test() {
+        console.log(this._data);
+    }
     _generateMarkup() {
         return this._data.map((rec)=>this._generateMarkupPreview(rec)).join('');
     }
@@ -2909,7 +2916,6 @@ class PaginationView extends (0, _viewJsDefault.default) {
     _generateMarkup() {
         const numPages = Math.ceil(this._data.result.length / this._data.resultsPerPage);
         const curPage = this._data.page;
-        console.log(numPages);
         if (curPage === 1 && numPages > 1) return `
        <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
           <span>Page ${curPage + 1}</span>

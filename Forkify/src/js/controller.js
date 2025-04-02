@@ -38,7 +38,6 @@ async function controlSearchResults() {
 
     paginationView.render(model.state.search)
 
-
   } catch(err) {
     console.log(err)
   }
@@ -50,7 +49,6 @@ function controlPagination(goToPage) {
 
   resultsView.render(model.getSearchResultsPage(goToPage))
   paginationView.render(model.state.search)
-
 }
 
 
