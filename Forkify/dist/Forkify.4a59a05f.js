@@ -679,8 +679,6 @@ var _resultsViewJsDefault = parcelHelpers.interopDefault(_resultsViewJs);
 var _paginationViewJs = require("./views/paginationView.js");
 var _paginationViewJsDefault = parcelHelpers.interopDefault(_paginationViewJs);
 var _runtime = require("regenerator-runtime/runtime");
-var _paginationView = require("./views/paginationView");
-var _paginationViewDefault = parcelHelpers.interopDefault(_paginationView);
 async function controlRecipes() {
     try {
         const id = window.location.hash.slice(1);
@@ -695,9 +693,9 @@ async function controlRecipes() {
 }
 async function controlSearchResults() {
     try {
-        (0, _resultsViewJsDefault.default).renderSpinner();
         const query = (0, _searchViewJsDefault.default).getQuery();
         if (!query) return;
+        (0, _resultsViewJsDefault.default).renderSpinner();
         await _modelJs.loadSearchResults(query);
         (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage());
         (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
@@ -713,17 +711,22 @@ function controlPagination(goToPage) {
 function controlServings(newServings) {
     _modelJs.updateServings(newServings);
     (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
-// recipeView.render(model.state.recipe)
+}
+function controlAddBookmark() {
+    if (_modelJs.state.recipe.bookmarked) _modelJs.deleteBookmark(_modelJs.state.recipe.id);
+    else _modelJs.addBookmark(_modelJs.state.recipe);
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
 }
 function init() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipes);
     (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
+    (0, _recipeViewJsDefault.default).addHandlerAddBookmark(controlAddBookmark);
     (0, _searchViewJsDefault.default).addHandlerRender(controlSearchResults);
     (0, _paginationViewJsDefault.default).addHandlerClick(controlPagination);
 }
 init();
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","core-js/modules/web.immediate.js":"bzsBv","regenerator-runtime/runtime":"f6ot0","./model.js":"3QBkH","./views/recipeView.js":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView":"7NIiB","./views/paginationView.js":"7NIiB"}],"jnFvT":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","core-js/modules/web.immediate.js":"bzsBv","regenerator-runtime/runtime":"f6ot0","./model.js":"3QBkH","./views/recipeView.js":"3wx5k","./views/searchView.js":"kbE4Z","./views/resultsView.js":"kBQ4r","./views/paginationView.js":"7NIiB"}],"jnFvT":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -2599,10 +2602,13 @@ parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
 parcelHelpers.export(exports, "updateServings", ()=>updateServings);
+parcelHelpers.export(exports, "addBookmark", ()=>addBookmark);
+parcelHelpers.export(exports, "deleteBookmark", ()=>deleteBookmark);
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
 const state = {
     recipe: {},
+    bookmarks: [],
     search: {
         query: '',
         result: '',
@@ -2623,6 +2629,7 @@ async function loadRecipe(id) {
         cookingTime: recipe.cooking_time,
         ingredients: recipe.ingredients
     };
+    state.recipe.bookmarked = state.bookmarks.some((bookmark)=>bookmark.id === id);
 }
 async function loadSearchResults(query) {
     state.search.query = query;
@@ -2649,6 +2656,15 @@ function pageResetAfterSearch() {
 function updateServings(newServings) {
     state.recipe.ingredients.forEach((ing)=>ing.quantity = ing.quantity * newServings / state.recipe.servings);
     state.recipe.servings = newServings;
+}
+function addBookmark(recipe) {
+    state.bookmarks.push(recipe);
+    if (recipe.id === state.recipe.id) state.recipe.bookmarked = true;
+}
+function deleteBookmark(id) {
+    const index = state.bookmarks.findIndex((el)=>el.id === id);
+    state.bookmarks.splice(index, 1);
+    if (id === state.recipe.id) state.recipe.bookmarked = false;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","./config.js":"2hPh4","./helpers.js":"7nL9P"}],"2hPh4":[function(require,module,exports,__globalThis) {
@@ -2737,9 +2753,9 @@ class RecipeView extends (0, _viewJsDefault.default) {
               <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
             </svg>
           </div>
-          <button class="btn--round">
+          <button class="btn--round btn--bookmark">
             <svg class="">
-              <use href="${0, _iconsSvgDefault.default}#icon-bookmark-fill"></use>
+              <use href="${0, _iconsSvgDefault.default}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
             </svg>
           </button>
         </div>
@@ -2768,8 +2784,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
               <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
             </svg>
           </a>
-        </div>
-    `;
+        </div>`;
     }
     _generateIngredients(ing) {
         return `
@@ -2798,6 +2813,13 @@ class RecipeView extends (0, _viewJsDefault.default) {
             if (currentServings >= 1) handler(currentServings);
         });
     }
+    addHandlerAddBookmark(handler) {
+        this._parentElement.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn--bookmark');
+            if (!btn) return;
+            handler();
+        });
+    }
 }
 exports.default = new RecipeView();
 
@@ -2819,6 +2841,7 @@ class View {
         this._parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderErrorMessage();
         this._data = data;
         const newMarkup = this._generateMarkup();
         const newDom = document.createRange().createContextualFragment(newMarkup);
@@ -2972,13 +2995,12 @@ class PaginationView extends (0, _viewJsDefault.default) {
           </svg>
           <span>Page ${curPage - 1}</span>
         </button>
-         <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
+        <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
           <span>Page ${curPage + 1}</span>
           <svg class="search__icon">
             <use href="${0, _iconsSvgDefault.default}#icon-arrow-right"></use>
           </svg>
-        </button>
-      `;
+        </button>`;
         return '';
     }
 }

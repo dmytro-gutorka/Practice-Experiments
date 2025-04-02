@@ -7,17 +7,20 @@ export default class View {
 
   render(data) {
     if (!data || (Array.isArray(data) && data.length === 0)) return this.renderErrorMessage()
-    this._data = data
 
+    this._data = data
     const markup = this._generateMarkup()
     this._clear()
     this._parentElement.insertAdjacentHTML('afterbegin', markup)
   }
 
+
   update(data) {
+    if (!data || (Array.isArray(data) && data.length === 0))
+      return this.renderErrorMessage()
+
     this._data = data
     const newMarkup = this._generateMarkup()
-
     const newDom = document.createRange().createContextualFragment(newMarkup)
     const newElements = Array.from(newDom.querySelectorAll('*'))
     const curElements = Array.from(this._parentElement.querySelectorAll('*'))
@@ -37,6 +40,7 @@ export default class View {
         }
     )
   }
+
 
   renderSpinner() {
     const markup = `

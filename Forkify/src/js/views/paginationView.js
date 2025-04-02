@@ -17,6 +17,7 @@ class PaginationView extends View {
     })
   }
 
+
   _generateMarkup() {
     const numPages = Math.ceil(this._data.result.length / this._data.resultsPerPage);
     const curPage = this._data.page
@@ -49,15 +50,13 @@ class PaginationView extends View {
           </svg>
           <span>Page ${curPage - 1}</span>
         </button>
-         <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
+        <button data-goto="${curPage + 1}" class="btn--inline pagination__btn--next">
           <span>Page ${curPage + 1}</span>
           <svg class="search__icon">
             <use href="${icons}#icon-arrow-right"></use>
           </svg>
-        </button>
-      `
+        </button>`
     }
-
     return ''
   }
 }

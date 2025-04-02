@@ -6,7 +6,6 @@ import paginationView from './views/paginationView.js'
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-import PaginationView from './views/paginationView';
 
 
 async function controlRecipes() {
@@ -30,10 +29,10 @@ async function controlRecipes() {
 async function controlSearchResults() {
 
   try {
-    resultsView.renderSpinner()
 
     const query = searchView.getQuery()
     if (!query) return;
+    resultsView.renderSpinner()
 
     await model.loadSearchResults(query)
     resultsView.render(model.getSearchResultsPage())
@@ -56,13 +55,23 @@ function controlPagination(goToPage) {
 function controlServings(newServings) {
   model.updateServings(newServings)
   recipeView.update(model.state.recipe)
-  // recipeView.render(model.state.recipe)
+}
+
+function controlAddBookmark() {
+  if (model.state.recipe.bookmarked) {
+    model.deleteBookmark(model.state.recipe.id)
+  } else {
+    model.addBookmark(model.state.recipe)
+  }
+
+  recipeView.update(model.state.recipe)
 }
 
 
 function init() {
   recipeView.addHandlerRender(controlRecipes)
   recipeView.addHandlerUpdateServings(controlServings)
+  recipeView.addHandlerAddBookmark(controlAddBookmark)
   searchView.addHandlerRender(controlSearchResults)
   paginationView.addHandlerClick(controlPagination)
 }
