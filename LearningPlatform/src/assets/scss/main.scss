@@ -1,0 +1,18 @@
+@use 'base/normalize';
+@use 'base/fonts';
+@use 'base/variables';
+@use 'base/mixins';
+@use 'base/media';
+
+@use 'base/utils';
+@use 'base/globals';
+
+
+@use 'components/header';
+@use 'components/menu';
+@use 'components/slider';
+@use 'components/card';
+@use 'components/button';
+@use 'components/footer';
+
+
