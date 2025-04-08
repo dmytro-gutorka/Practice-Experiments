@@ -1,9 +1,13 @@
-import * as model from './model.js'
-import recipeView from './views/recipeView.js'
-import searchView from './views/searchView.js'
-import resultsView from './views/resultsView.js'
-import paginationView from './views/paginationView.js'
-import bookmarksView from './views/bookmarksView.js'
+import { MODAL_CLOSE_SEC } from './config.js';
+
+import * as model from './model.js';
+import recipeView from './views/recipeView.js';
+import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
+import paginationView from './views/paginationView.js';
+import bookmarksView from './views/bookmarksView.js';
+import addRecipeView from './views/addRecipeView.js';
+
 
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
@@ -54,6 +58,7 @@ function controlPagination(goToPage) {
   paginationView.render(model.state.search)
 }
 
+
 function controlServings(newServings) {
   model.updateServings(newServings)
   recipeView.update(model.state.recipe)
@@ -78,6 +83,34 @@ function controlBookmarks() {
 }
 
 
+async function controlAddRecipe(newRecipe) {
+
+  try {
+
+    const savedParentElement = addRecipeView._parentElement.innerHTML
+
+    addRecipeView.renderSpinner()
+
+    await model.uploadRecipe(newRecipe)
+
+    recipeView.render(model.state.recipe)
+
+    addRecipeView.renderSuccessfulMessage()
+
+    setTimeout(() => {
+          addRecipeView.toggleWindow()
+          addRecipeView._parentElement.innerHTML = savedParentElement
+        },
+        MODAL_CLOSE_SEC * 1000)
+
+  }
+  catch(err) {
+    console.error(`😢😢`, err);
+    addRecipeView.renderErrorMessage(err.message)
+  }
+}
+
+
 function init() {
   recipeView.addHandlerRender(controlRecipes)
   recipeView.addHandlerUpdateServings(controlServings)
@@ -85,6 +118,7 @@ function init() {
   searchView.addHandlerRender(controlSearchResults)
   paginationView.addHandlerClick(controlPagination)
   bookmarksView.addHandlerListener(controlBookmarks)
+  addRecipeView.addHandlerUpload(controlAddRecipe)
 }
 
 
