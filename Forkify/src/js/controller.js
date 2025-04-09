@@ -97,6 +97,10 @@ async function controlAddRecipe(newRecipe) {
 
     addRecipeView.renderSuccessfulMessage()
 
+    bookmarksView.render(model.state.bookmarks)
+
+    window.history.pushState(null, '', `#${model.state.recipe.id}`)
+
     setTimeout(() => {
           addRecipeView.toggleWindow()
           addRecipeView._parentElement.innerHTML = savedParentElement

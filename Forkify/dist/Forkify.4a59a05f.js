@@ -734,6 +734,8 @@ async function controlAddRecipe(newRecipe) {
         await _modelJs.uploadRecipe(newRecipe);
         (0, _recipeViewJsDefault.default).render(_modelJs.state.recipe);
         (0, _addRecipeViewJsDefault.default).renderSuccessfulMessage();
+        (0, _bookmarksViewJsDefault.default).render(_modelJs.state.bookmarks);
+        window.history.pushState(null, '', `#${_modelJs.state.recipe.id}`);
         setTimeout(()=>{
             (0, _addRecipeViewJsDefault.default).toggleWindow();
             (0, _addRecipeViewJsDefault.default)._parentElement.innerHTML = savedParentElement;
@@ -2047,13 +2049,13 @@ function createRecipeObject(data) {
     };
 }
 async function loadRecipe(id) {
-    const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}${id}`);
+    const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}${id}`);
     state.recipe = createRecipeObject(data);
     state.recipe.bookmarked = state.bookmarks.some((bookmark)=>bookmark.id === id);
 }
 async function loadSearchResults(query) {
     state.search.query = query;
-    const data = await (0, _helpersJs.getJSON)(`${(0, _configJs.API_URL)}?search=${query}`);
+    const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?search=${query}&key=${(0, _configJs.API_KEY)}`);
     state.search.result = data.data.recipes.map((recipe)=>{
         return {
             id: recipe.id,
@@ -2116,9 +2118,8 @@ const uploadRecipe = async function(newRecipe) {
         servings: +newRecipe.servings,
         ingredients
     };
-    const data = await (0, _helpersJs.sendJSON)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.API_KEY)}`, recipe);
+    const data = await (0, _helpersJs.AJAX)(`${(0, _configJs.API_URL)}?key=${(0, _configJs.API_KEY)}`, recipe);
     state.recipe = createRecipeObject(data);
-    console.log(state.recipe);
     addBookmark(state.recipe);
 };
 
@@ -2169,8 +2170,7 @@ exports.export = function(dest, destName, get) {
 },{}],"7nL9P":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getJSON", ()=>getJSON);
-parcelHelpers.export(exports, "sendJSON", ()=>sendJSON);
+parcelHelpers.export(exports, "AJAX", ()=>AJAX);
 var _configJs = require("./config.js");
 function timeout(s) {
     return new Promise(function(_, reject) {
@@ -2179,26 +2179,17 @@ function timeout(s) {
         }, s * 1000);
     });
 }
-async function getJSON(url) {
-    const res = await Promise.race([
-        timeout((0, _configJs.TIMEOUT_SEC)),
-        fetch(url)
-    ]);
-    const data = await res.json();
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`);
-    return data;
-}
-async function sendJSON(url, uploadData) {
-    const fetch1 = await fetch(url, {
+async function AJAX(url, uploadData) {
+    const fetchPro = uploadData ? fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(uploadData)
-    });
+    }) : await fetch(url);
     const res = await Promise.race([
         timeout((0, _configJs.TIMEOUT_SEC)),
-        fetch1
+        fetchPro
     ]);
     const data = await res.json();
     if (!res.ok) throw new Error(`${data.message} (${res.status})`);
@@ -2254,7 +2245,7 @@ class RecipeView extends (0, _viewJsDefault.default) {
             </div>
           </div>
 
-          <div class="recipe__user-generated">
+          <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
             <svg>
               <use href="${0, _iconsSvgDefault.default}#icon-user"></use>
             </svg>
@@ -2441,6 +2432,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _view = require("./view");
 var _viewDefault = parcelHelpers.interopDefault(_view);
+var _iconsSvg = require("url:../../img/icons.svg");
+var _iconsSvgDefault = parcelHelpers.interopDefault(_iconsSvg);
 class PreviewView extends (0, _viewDefault.default) {
     _successMessage = 'Start by searching for a recipe or an ingredient. Have fun!';
     _generateMarkup() {
@@ -2465,7 +2458,7 @@ class PreviewView extends (0, _viewDefault.default) {
 }
 exports.default = PreviewView;
 
-},{"./view":"2kjY2","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"2kjY2":[function(require,module,exports,__globalThis) {
+},{"./view":"2kjY2","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","url:../../img/icons.svg":"fd0vu"}],"2kjY2":[function(require,module,exports,__globalThis) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _iconsSvg = require("url:../../img/icons.svg");

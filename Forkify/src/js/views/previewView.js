@@ -1,4 +1,6 @@
 import View from './view';
+import icons from 'url:../../img/icons.svg';
+
 
 
 export default class PreviewView extends View {
