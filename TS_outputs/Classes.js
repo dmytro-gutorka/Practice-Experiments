@@ -100,7 +100,6 @@ exports.CheckingAccount = CheckingAccount;
 let user = {
     email: 'test@example.com',
     password: 'qwerty123',
-    role: 'Admin',
     login() {
         console.log('Logged in');
     },
@@ -108,7 +107,7 @@ let user = {
         console.log('Logged out');
     }
 };
-class AuthenticatableUser {
+class AuthenticationExtra {
     constructor(email, password, role, anyExtraProperty) {
         this.email = email;
         this.password = password;

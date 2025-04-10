@@ -5,13 +5,15 @@
   "license": "ISC",
   "author": "Dima Gutorka",
   "type": "commonjs",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.14.4",
-    "parcel": "^2.14.4"
+    "parcel": "^2.14.4",
+    "svgo": "^3.3.2"
   },
   "dependencies": {
     "core-js": "^3.41.0",

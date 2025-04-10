@@ -198,6 +198,7 @@ document.addEventListener('keydown', (e) => {
   e.key === 'ArrowRight' && nextSlide()
 })
 
+
 dotContainer.addEventListener('click', (e) => {
   if (e.target.classList.contains('dots__dot')){
     currSlide = Number(e.target.dataset.slide)

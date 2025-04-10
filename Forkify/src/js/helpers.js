@@ -1,5 +1,6 @@
 import { TIMEOUT_SEC } from './config.js';
 
+
 function timeout(s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -7,9 +8,6 @@ function timeout(s) {
     }, s * 1000);
   });
 }
-
-
-
 
 
 export async function AJAX(url, uploadData = undefined) {

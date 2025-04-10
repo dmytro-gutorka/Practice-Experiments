@@ -36,3 +36,4 @@ ShoppingCart2.addToCart('pizza', 10);
 console.log(a + b)
 let c = {}
 closeDeep(c)
+
