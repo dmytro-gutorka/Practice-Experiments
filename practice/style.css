@@ -1,0 +1,15 @@
+.grid-container {
+    outline: 5px solid pink;
+    /*border: 1px solid pink;*/
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+    padding: 30px;
+}
+
+.grid-item {
+    border: 1px solid red;
+    background-color: green;
+
+}
+

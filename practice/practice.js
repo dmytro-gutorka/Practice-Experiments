@@ -1,3 +1,5 @@
+
+
 // const Car = function (brand, year) {
 //     this.brand = brand;
 //     this.year = year;
@@ -142,5 +144,66 @@
 // regular();
 // arrow();
 
+//
+// function longestConsec(strarr, k) {
+//   if (strarr.length === 0 || strarr.length < k || k <= 0) return ""
+//
+//   const wordLength =  Math.max(...strarr.map(word => word.length))
+//   const longestWord = strarr.filter(word => word.length === wordLength)[0]
+//   const firstWordOccurrenceIndex = strarr.indexOf(longestWord)
+//   const concatWords = strarr.slice(firstWordOccurrenceIndex, (firstWordOccurrenceIndex + k + 1)).join('')
+//
+//   return concatWords
+// }
 
 
+
+// function throttle(func, delay) {
+//   let lastCall = 0;
+//
+//   return function(...args) {
+//     const now = Date.now()
+//
+//     if (now - lastCall >= delay) {
+//       lastCall = now
+//       func.apply(this, args)
+//     }
+//   }
+// }
+//
+// function logScroll() {
+//   console.log('scroll event:', new Date().toISOString())
+// }
+//
+// const throttledScroll = throttle(logScroll, 2000)
+//
+// window.addEventListener('scroll', throttledScroll)
+
+
+//
+// function debounce(func, delay) {
+//   let timer;
+//
+//   return function(...args) {
+//     clearTimeout(timer)
+//
+//     timer = setTimeout(() =>
+//       func.apply(this, args), delay
+//     )
+//   }
+// }
+//
+//
+// function logScroll() {
+//   console.log('scroll event:', new Date().toISOString())
+// }
+//
+//
+// const debouncedScroll = debounce(logScroll, 2000)
+//
+// window.addEventListener('scroll', debouncedScroll)
+//
+//
+// const elements = document.querySelectorAll('p')
+//
+// console.log(elements)
