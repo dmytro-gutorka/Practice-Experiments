@@ -207,3 +207,33 @@
 // const elements = document.querySelectorAll('p')
 //
 // console.log(elements)
+
+
+
+let animal = {
+  canSwim: true,
+  eat() {
+    console.log('Eating...')
+  }
+}
+
+
+let dog = {
+  name: 'John',
+
+  bark() {
+    console.log(this.name + ' barks')
+  },
+
+  __proto__: animal
+}
+
+
+console.log(dog)
+
+
+
+let test = {
+  __proto__: dog
+}
+
