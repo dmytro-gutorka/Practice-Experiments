@@ -7,12 +7,51 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
+
+    <style>
+
+
+
+    .accordion-item.active .accordion-content{
+        max-height: 500px;
+        height: 500px;
+    }
+
+    </style>
 </head>
 <body>
-<div>GASGAS</div>
-<h1></h1>
-<div></div>
-<h2></h2>
+
+<div class="max-w-md mx-auto mt-10 space-y-2 accordion">
+    <div class="border border-gray-700 rounded-xl overflow-hidden accordion-item">
+        <button class="w-full px-4 py-3 text-left text-white bg-gray-800 accordion-header">
+            Section 1
+        </button>
+        <div class="px-4 py-3 bg-gray-900 text-gray-300 accordion-content max-h-0 overflow-hidden transition-all duration-300">
+            Content for section 1
+        </div>
+    </div>
+
+    <div class="border border-gray-700 rounded-xl overflow-hidden accordion-item">
+        <button class="w-full px-4 py-3 text-left text-white bg-gray-800 accordion-header">
+            Section 2
+        </button>
+        <div class="px-4 py-3 bg-gray-900 text-gray-300 accordion-content max-h-0 overflow-hidden transition-all duration-300">
+            Content for section 2
+        </div>
+    </div>
+
+    <div class="border border-gray-700 rounded-xl overflow-hidden accordion-item">
+        <button class="w-full px-4 py-3 text-left text-white bg-gray-800 accordion-header">
+            Section 3
+        </button>
+        <div class="px-4 py-3 bg-gray-900 text-gray-300 accordion-content max-h-0 overflow-hidden transition-all duration-300">
+            Content for section 3
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
 <script src="practice.js"></script>
 </body>
 </html>

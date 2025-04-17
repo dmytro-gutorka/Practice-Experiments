@@ -83,13 +83,6 @@ let store: DataStore = {
 store.c = 'c'
 
 
-
-let roles = ['admin', 'guest', 'editor'] as const;
-
-const firstRole = roles[0]
-
-
-
 type CatName = "miffy" | "boris" | "mordred";
 
 interface CatInfo {
@@ -103,4 +96,20 @@ const cats: Record<CatName, CatInfo> = {
   mordred: { age: 16, breed: "British Shorthair" },
 };
 
+
 cats.boris;
+
+
+type Colors = "red" | "green" | "blue"
+type RGB = [number, number, number]
+
+
+const pallete = {
+  red: [1, 255, 4],
+  green: '#3454',
+  blue: [0, 333, 222]
+
+} satisfies Record<Colors, string | RGB>
+
+
+const color = pallete.green.toUpperCase()

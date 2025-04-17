@@ -208,32 +208,35 @@
 //
 // console.log(elements)
 
+//
+//
+// for (let i = 0; i < 3; i++) {
+//   setTimeout(() => {
+//     console.log(i)
+//   }, 1000)
+//
+// }
 
 
-let animal = {
-  canSwim: true,
-  eat() {
-    console.log('Eating...')
-  }
-}
+//   What is currying?
+//   What are the advantages of Getters and Setters?
+//   What is an event loop?
+//   What is destructuring assignment (array, object)?
+//   What are the different ways of adding event listener to an element?
+//   What is the use of stopPropagation method?
+//   What is an event delegation?
 
 
-let dog = {
-  name: 'John',
+// const accordion = document.querySelector('.accordion')
+//
+//
+// accordion.addEventListener('click', (e) => {
+//   const clickedBtn = e.target.closest('.accordion-header')
+//   const a = [...accordion.querySelectorAll('.accordion-item')]
+//
+//   a.map(el => el !== clickedBtn.parentElement && el.classList.remove('active'))
+//
+//   clickedBtn.parentElement.classList.toggle('active')
+// })
 
-  bark() {
-    console.log(this.name + ' barks')
-  },
-
-  __proto__: animal
-}
-
-
-console.log(dog)
-
-
-
-let test = {
-  __proto__: dog
-}
 
